@@ -50,7 +50,7 @@ public class WordDictionary {
      */
     public void init(Path configFile) {
         String abspath = configFile.toAbsolutePath().toString();
-        System.out.println("initialize user dictionary:" + abspath);
+        Log.debug("initialize user dictionary:" + abspath);
         synchronized (WordDictionary.class) {
             if (loadedPath.contains(abspath))
                 return;
@@ -64,9 +64,7 @@ public class WordDictionary {
                 }
                 loadedPath.add(abspath);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                // e.printStackTrace();
-                System.err.println(String.format(Locale.getDefault(), "%s: load user dict failure!", configFile.toString()));
+                Log.error(String.format(Locale.getDefault(), "%s: load user dict failure!", configFile.toString()));
             }
         }
     }
@@ -76,13 +74,11 @@ public class WordDictionary {
             for (String path : paths) {
                 if (!loadedPath.contains(path)) {
                     try {
-                        System.out.println("initialize user dictionary: " + path);
+                        Log.debug("initialize user dictionary: " + path);
                         singleton.loadUserDict(path);
                         loadedPath.add(path);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                        System.err.println(String.format(Locale.getDefault(), "%s: load user dict failure!", path));
+                        Log.error(String.format(Locale.getDefault(), "%s: load user dict failure!", path));
                     }
                 }
             }
